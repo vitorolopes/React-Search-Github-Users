@@ -2,8 +2,38 @@ import React from 'react';
 import styled from 'styled-components';
 import { GithubContext } from '../context/context';
 import { ExampleChart, Pie3D, Column3D, Bar3D, Doughnut2D } from './Charts';
+
+// https://www.fusioncharts.com/dev/getting-started/react/your-first-chart-using-react
+// https://www.fusioncharts.com/dev/chart-guide/list-of-charts
+
 const Repos = () => {
-  return <h2>repos component</h2>;
+
+  const {repos} = React.useContext(GithubContext)
+  console.log(repos)
+
+  const chartData = [
+  {
+    label: "HTML",
+    value: "20"
+  },
+  {
+    label: "CSS",
+    value: "27"
+  },
+  {
+    label: "JS",
+    value: "50"
+  }
+];
+
+  return (
+    <section>
+      <Wrapper className='section-center'>
+        {/* <ExampleChart data={chartData}/> */}
+        <Pie3D data={chartData}/>
+      </Wrapper>
+    </section>    
+  )
 };
 
 const Wrapper = styled.div`
