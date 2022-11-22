@@ -11,7 +11,7 @@ const GithubContext = createContext();
 const GithubProvider = ({children}) => {
 //! HERE
   const [githubUser, setGithubUser] = useState(mockUser);
-  const [repos, seTrepos] = useState(mockRepos);
+  const [repos, setRepos] = useState(mockRepos);
   const [followers, setFollowers] = useState(mockFollowers)
 
   // const dummyValue = "Dummy Hello"
