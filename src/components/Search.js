@@ -8,13 +8,12 @@ const Search = () => {
   const [user, setUser] = useState("")
   // TODO: get things from global context
              
-  const {requests, error, searchGithubUser} = useContext(GithubContext);
+  const {requests, error, searchGithubUser, isLoading} = useContext(GithubContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(user);
     if(user){ // if the form is not empty
-//! HERE 1
       searchGithubUser(user)
     } 
   }
@@ -34,8 +33,9 @@ const Search = () => {
               <input type="text" placeholder='enter github user'
                      value={user}
                      onChange={(e)=>setUser(e.target.value)} 
-              />
-              { requests > 0 && <button type="submit">Search</button>  }
+              />             
+                          {/* //! HERE 1 */}
+              { (requests > 0 && !isLoading) && <button type="submit">Search</button>  }
             </div>
           </form>
 

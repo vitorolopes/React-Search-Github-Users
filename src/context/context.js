@@ -15,11 +15,11 @@ const GithubProvider = ({children}) => {
   const [followers, setFollowers] = useState(mockFollowers)
   // request loading
   const [requests, setRequests] = useState(0);
-
+  //! HERE 1
+  const [isLoading, setIsLoading] = useState(false)
   // error
   const [error, setError] = useState({show: false, msg:""})
-
-    // check number of requests already made in the last hour
+  // check number of requests already made in the last hour
   const checkRequests = () => { 
     axios(`${rootUrl}/rate_limit`)
     .then( (res) => {
@@ -37,19 +37,12 @@ const GithubProvider = ({children}) => {
   const toggleError = (show = false, msg = "") => {
     setError({show,msg})
   }
-//! HERE 1
+
   const searchGithubUser = async (user) => { 
    toggleError()
-// Every time I start searching for a new user, I would want to
-// make sure that if there was an error in a previous search, I remove the error message.
-// Now, if the error message it's not there, it's not going to do any bad because I already have 
-// the default of show false.
-// And then remember when I was setting up toggleError function how I passed in the ES6 defaults
-// where if I don't pass in the show, by default is going to be false.
-// If I don't pass in the message by default, it's just going to be empty string.
-// That's why I'm just invoking the function with no parameters, because I already have some 
-// predefined defaults.
-// TODO: setLoading(true)
+//! HERE 2
+    setIsLoading(true)
+
     const response = await axios(`${rootUrl}/users/${user}`)
                        .catch(err=>console.log(err))
     console.log(response);
@@ -59,21 +52,18 @@ const GithubProvider = ({children}) => {
     }else{
       toggleError(true, "there is no user with that username")
     }
+//! HERE 3
+    checkRequests(); // Update the number of available requests
+    setIsLoading(false)
   }
 
   useEffect(checkRequests,[])
   
   return (
-    <GithubContext.Provider
-      value={{
-        githubUser,
-        repos,
-        followers,
-        requests,
-        error,
-//! HERE 2       
-        searchGithubUser
-      }}
+    <GithubContext.Provider                                                  
+      value={{githubUser, repos, followers, requests,  error,searchGithubUser,
+      //! HERE 2
+       isLoading }}
     >
       {children}
     </GithubContext.Provider>
