@@ -7,21 +7,21 @@ const Search = () => {
 
   const [user, setUser] = useState("")
   // TODO: get things from global context
-                   //! HERE 1
-  const {requests, error} = useContext(GithubContext);
+             
+  const {requests, error, searchGithubUser} = useContext(GithubContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(user);
     if(user){ // if the form is not empty
-      // TODO: deal with data coming from the API call
+//! HERE 1
+      searchGithubUser(user)
     } 
   }
 
   return (
       <section className='section'>
         <Wrapper className='section-center'>
-        {/* //! HERE 2 */}
           {error.show && 
              <ErrorWrapper>
               <p>{error.msg}</p>
