@@ -6,7 +6,7 @@ import { ExampleChart, Pie3D, Column3D, Bar3D, Doughnut2D } from './Charts';
 const Repos = () => {
 
   const {repos} = React.useContext(GithubContext)
-  console.log(repos);
+  // console.log(repos);
 
   const languages = repos.reduce((total, item)=>{
     const {language, stargazers_count} = item;
@@ -25,7 +25,7 @@ const Repos = () => {
     }
     return total
   }, {})
-  console.log(languages)
+  // console.log(languages)
 //* Most used languages
   const mostUsed = Object.values(languages) // This way we transform the object of objects in an array of objects
               .sort((a,b)=>{ // We only want the 5 most representative languages (some people have a lot of languages)
@@ -56,7 +56,7 @@ const Repos = () => {
       stars:{}, forks:{}
     }
   )
-  console.log(stars)//! NOTE: Why does the stars object only contains 19 objects when (in mockRepos.js) we have 100 repos?
+  // console.log(stars)//! NOTE: Why does the stars object only contains 19 objects when (in mockRepos.js) we have 100 repos?
   //! Does it have something to do with the fact that many repos have the same value of stargazers_count?
   //! Are we overwriting the (current) object of the stars "wrapping" object each time we encounter a repo with the same value
   //! of stargazers_count as a previous repo has?
@@ -65,7 +65,7 @@ const Repos = () => {
   stars = Object.values(stars) // We transform the object into an array
             .slice(-5) // We slice the 5 last elements
             .reverse() // We want to display the one with the greater value first
-  console.log(stars)
+  // console.log(stars)
   forks = Object.values(forks).slice(-5).reverse() 
 
   return (
