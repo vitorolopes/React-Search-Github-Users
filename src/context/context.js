@@ -13,12 +13,12 @@ const GithubProvider = ({children}) => {
   const [githubUser, setGithubUser] = useState(mockUser);
   const [repos, setRepos] = useState(mockRepos);
   const [followers, setFollowers] = useState(mockFollowers)
-  //! HERE 1
   // request loading
   const [requests, setRequests] = useState(0);
- 
-  // TODO: Error
-  //! HERE 2
+//! HERE 1
+  // error
+  const [error, setError] = useState({show: false, msg:""})
+
   // check number of requests already made in the last hour
   const checkRequests = () => { 
     axios(`${rootUrl}/rate_limit`)
@@ -26,13 +26,21 @@ const GithubProvider = ({children}) => {
          let {data} = res; // console.log(data);
          //  let {rate} = data; //console.log(rate);
          let {rate:{remaining}} = data
+         remaining = 0 //! here 3a, just for demo purposes
          setRequests(remaining)
          if(remaining===0){
           // TODO: Throw an error
+          //! HERE 3
+          toggleError(true, "sorry, you have exceded your hourly rate limit")
          }
     })
     .catch(err=>console.log(err))
    }
+//! HERE 2
+  const toggleError = (show = false, msg = "") => {
+    setError({show,msg})
+  }
+  
   useEffect(checkRequests,[])
   
   return (
@@ -41,8 +49,9 @@ const GithubProvider = ({children}) => {
         githubUser,
         repos,
         followers,
-//! HERE 3
-        requests
+        requests,
+        //! HERE 3
+        error
       }}
     >
       {children}

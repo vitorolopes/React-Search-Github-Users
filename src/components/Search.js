@@ -7,10 +7,8 @@ const Search = () => {
 
   const [user, setUser] = useState("")
   // TODO: get things from global context
-
-  //! HERE 1
-  const {requests} = useContext(GithubContext);
-  console.log(requests);
+                   //! HERE 1
+  const {requests, error} = useContext(GithubContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,6 +21,12 @@ const Search = () => {
   return (
       <section className='section'>
         <Wrapper className='section-center'>
+        {/* //! HERE 2 */}
+          {error.show && 
+             <ErrorWrapper>
+              <p>{error.msg}</p>
+             </ErrorWrapper> 
+          }
 
           <form onSubmit={handleSubmit}>
             <div className="form-control">
@@ -31,7 +35,6 @@ const Search = () => {
                      value={user}
                      onChange={(e)=>setUser(e.target.value)} 
               />
-              {/* //! HERE 2 */}
               { requests > 0 && <button type="submit">Search</button>  }
             </div>
           </form>
