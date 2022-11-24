@@ -34,7 +34,6 @@ const Search = () => {
                      value={user}
                      onChange={(e)=>setUser(e.target.value)} 
               />             
-                          {/* //! HERE 1 */}
               { (requests > 0 && !isLoading) && <button type="submit">Search</button>  }
             </div>
           </form>

@@ -5,7 +5,6 @@ import mockFollowers from './mockData.js/mockFollowers';
 import axios from 'axios';
 
 const rootUrl = 'https://api.github.com';
-
 const GithubContext = createContext();
 
 const GithubProvider = ({children}) => {
@@ -15,7 +14,6 @@ const GithubProvider = ({children}) => {
   const [followers, setFollowers] = useState(mockFollowers)
   // request loading
   const [requests, setRequests] = useState(0);
-  //! HERE 1
   const [isLoading, setIsLoading] = useState(false)
   // error
   const [error, setError] = useState({show: false, msg:""})
@@ -39,30 +37,41 @@ const GithubProvider = ({children}) => {
   }
 
   const searchGithubUser = async (user) => { 
-   toggleError()
-//! HERE 2
+    toggleError()
     setIsLoading(true)
 
     const response = await axios(`${rootUrl}/users/${user}`)
                        .catch(err=>console.log(err))
     console.log(response);
+
     if(response){
-      setGithubUser(response.data)
-// TODO: continue to develop this function      
+      setGithubUser(response.data)  
+//! HERE 1
+      const {login, followers_url} = response.data;
+// Repos --> https://api.github.com/users/john-smilga/repos?per_page=100     
+      axios(`${rootUrl}/users/${login}/repos?per_page=100`)
+      .then(res=>{
+        console.log(res)
+        setRepos(res.data)
+      })
+// Followers --> https://api.github.com/users/john-smilga/followers
+      axios(`${followers_url}?per_page=100`)
+      .then(res=>{
+        console.log(res)
+        setFollowers(res.data)
+      })
+      
     }else{
       toggleError(true, "there is no user with that username")
     }
-//! HERE 3
     checkRequests(); // Update the number of available requests
     setIsLoading(false)
   }
-
   useEffect(checkRequests,[])
-  
   return (
     <GithubContext.Provider                                                  
       value={{githubUser, repos, followers, requests,  error,searchGithubUser,
-      //! HERE 2
+
        isLoading }}
     >
       {children}

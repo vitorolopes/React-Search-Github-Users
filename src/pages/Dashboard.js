@@ -4,9 +4,9 @@ import loadingImage from '../images/preloader.gif';
 import { GithubContext } from '../context/context';
 
 const Dashboard = () => {
-//! HERE 1
+
   const {isLoading} = useContext(GithubContext)
-//! HERE 2
+
   if(isLoading){
     return (
       <main>
