@@ -64,7 +64,7 @@ ReactFC.fcRoot(FusionCharts, Chart, FusionTheme);
 //     data: chartData
 //   }
 // };
-console.log("something");
+
 
 //! HERE
 const ChartComponent = ({data}) =>{
