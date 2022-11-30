@@ -1,3 +1,4 @@
+import { Auth0Provider } from '@auth0/auth0-react';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Dashboard, Login, PrivateRoute, AuthWrapper, Error } from './pages';
@@ -5,19 +6,29 @@ import { Dashboard, Login, PrivateRoute, AuthWrapper, Error } from './pages';
 
 function App() {
   return (
-    <Router>
 
-      <Routes>
+    <AuthWrapper>
+      
+      <Router>
 
-        <Route exact path='/' element={ <Dashboard/> }/>
+        <Routes>
 
-        <Route path='/login' element={ <Login/> }/>
+            <Route exact path='/' element={ 
+                                    <PrivateRoute>
+                                      <Dashboard/>
+                                    </PrivateRoute> 
+                                  }
+            />
         
-        <Route path='*' element={ <Error/> }/>
+          <Route path='/login' element={ <Login/> }/>
+          
+          <Route path='*' element={ <Error/> }/>
 
-      </Routes>
+        </Routes>
 
-    </Router>
+      </Router>
+
+    </AuthWrapper>
   );
 }
 
